@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined";
+import { useAuthUser } from "react-auth-kit";
 
 //styles, use
 const Container = styled.div`
@@ -62,7 +63,7 @@ const Icon = styled(LightbulbOutlinedIcon)`
 `;
 
 const Navbar = () => {
-  const user = true;
+  const auth = useAuthUser();
   return (
     <Container>
       <Left>
@@ -78,7 +79,7 @@ const Navbar = () => {
         <Icon />
       </Middle>
       <Right>
-        {user ? (
+        {auth ? (
           <>
             <MenuItem to="/signup">
               <Button type="signup">Sign Up</Button>

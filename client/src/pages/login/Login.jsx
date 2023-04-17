@@ -5,6 +5,7 @@ import TextError from "../../components/textError/TextError";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
+import axios from "axios";
 
 const Button = styled.button`
   padding: 20px 20px;
@@ -76,7 +77,7 @@ const validationSchema = Yup.object({
 //   // console.log(values);
 // };
 const onSubmit = (values, { setSubmitting }) => {
-  axios.post("/api/login", values).then((res) => {
+  axios.post("/api/auth/login", values).then((res) => {
     if (res.status === 200) {
       if (
         signIn({

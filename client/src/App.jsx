@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "react-auth-kit";
+import { RequireAuth } from "react-auth-kit";
 
 import Navbar from "./components/navbar/Navbar";
 import Home from "./pages/home/Home";
@@ -31,7 +32,14 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />{" "}
             <Route path="/newsletter" element={<NewsLetter />} />
-            <Route path="/createblog" element={<CreateBlog />} />
+            <Route
+              path="/createblog"
+              element={
+                <RequireAuth loginPath={"/login"}>
+                  <CreateBlog />
+                </RequireAuth>
+              }
+            />
           </Routes>
         </Router>
       </AuthProvider>

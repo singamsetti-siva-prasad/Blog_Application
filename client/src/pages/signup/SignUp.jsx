@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import TextError from "../../components/textError/TextError";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Button = styled.button`
   padding: 20px 20px;
@@ -59,9 +60,9 @@ const StyledLink = styled(Link)`
 `;
 
 const initialValues = {
-  password: "",
+  username: "",
   email: "",
-  userName: "",
+  password: "",
 };
 
 const validationSchema = Yup.object({
@@ -69,18 +70,24 @@ const validationSchema = Yup.object({
     .required("Required")
     .min(8, "Must be minimum 8 characters"),
   email: Yup.string().email("Invalid email address").required("Required"),
-  userName: Yup.string()
+  username: Yup.string()
     .required("Required")
     .max(8, "Must be 8 characters or less"),
 });
 
-const onSubmit = (values, { setSubmitting }) => {
-  setTimeout(() => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-  }, 400);
-};
+const onSubmit = async (values, { setSubmitting }) => {
+  // store the states in the form data
 
+  try {
+    // make axios post request
+    const response = await axios.post("/api/auth/register", values);
+    response
+      .then(alert("registered succesfully"))
+      .catch(alert("failed to register"));
+  } catch (error) {
+    console.log(error);
+  }
+};
 const SignUp = () => {
   return (
     <Container>
@@ -92,13 +99,13 @@ const SignUp = () => {
         {(formik) => (
           <StyledForm>
             <StyledField
-              name="userName"
+              name="username"
               className="form-input"
               placeholder="user name"
               autoComplete="off"
               type="text"
             />
-            <ErrorMessage name="userName" component={TextError} />
+            <ErrorMessage name="username" component={TextError} />
             <StyledField
               name="email"
               className="form-input"
